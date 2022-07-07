@@ -1,8 +1,8 @@
-## 腾讯菁英班 - mini监控系统v2.0.0
+## 腾讯菁英班 - mini监控系统v1.0.0
 
 ### 系统简介
 
-![image-20220222000127120](http://feifan0820.oss-cn-shenzhen.aliyuncs.com/img/image-20220222000127120.png)
+![监控系统](https://github.com/zhengdacheng/MonitorSystem/blob/main/%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F%E5%9B%BE.png)
 
 采用微服务架构理念对系统模块进行拆分重构，增强系统高可用性
 
