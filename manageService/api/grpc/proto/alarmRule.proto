@@ -1,0 +1,33 @@
+syntax = "proto3";// 协议为proto3
+
+package proto;
+option go_package = "../proto";
+
+// 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
+service alarmRuleService{
+  rpc AlarmRuleQuery (alarmRuleQueryReq) returns (alarmRuleQueryResp){};
+}
+
+// 定义发送请求信息
+message alarmRuleQueryReq{
+}
+
+// 定义响应信息，由于没有用户概念，因此定义的规则将适用于所有受监控的host(number >= 1)
+message alarmRuleQueryResp{
+  int32 code = 1;
+  // cpu relative threshold
+  float CpuNoteworthyThreshold = 2;
+  float CpuSeriousThreshold = 3;
+  float CpuDeadlyThreshold = 4;
+
+  // mem relative threshold
+  float MemNoteworthyThreshold = 5;
+  float MemSeriousThreshold = 6;
+  float MemDeadlyThreshold = 7;
+
+  string Granularity = 8;
+  string AggregateFunction = 9;
+
+  string ContactEmail = 10;
+}
+

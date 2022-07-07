@@ -1,0 +1,12 @@
+FROM golang
+MAINTAINER dczheng "1261408023@qq.com"
+ENV GO111MODULE on
+WORKDIR /data/Development/goCode/src/monitor
+COPY ./warningService /data/Development/goCode/src/monitor
+WORKDIR /data/Development/goCode/src/monitor/warningService
+RUN export GOPROXY=https://goproxy.io/ &&go mod tidy
+WORKDIR /data/Development/goCode/src/monitor/internal/cmd
+RUN go build -o warningService .
+WORKDIR /dist
+RUN cp /data/Development/goCode/src/monitor/internal/cmd/warningService .
+ENTRYPOINT ["/dist/warningService"]

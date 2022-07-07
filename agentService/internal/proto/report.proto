@@ -1,0 +1,25 @@
+syntax = "proto3";// 协议为proto3
+
+package proto;
+option go_package = "../proto";
+
+// 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
+service Report{
+  rpc Report (reportReq) returns (reportResp){};
+}
+
+// 定义发送请求信息
+message reportReq{
+  string hostID = 1;
+  float cpuRate = 2;
+  float memRate = 3;
+  int64 timeStamp = 4;
+}
+
+// 定义响应信息
+message reportResp{
+  // 返回码，返回信息
+  int32 code = 1;
+  string value = 2;
+}
+

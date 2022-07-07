@@ -1,0 +1,24 @@
+syntax = "proto3";// 协议为proto3
+
+package proto;
+option go_package = "../proto";
+
+// 定义我们的服务（可定义多个服务,每个服务可定义多个接口）
+service Query{
+  rpc AggregateQuery (queryReq) returns (queryResp){};
+}
+
+// 定义发送请求信息
+message queryReq{
+  string metricsType = 1;
+  string granularity = 2;
+  string aggregateFunction = 3;
+}
+
+// 定义响应信息，由于没有用户概念，因此定义的规则将适用于所有受监控的host(number >= 1)
+message queryResp{
+  int32 code = 1;
+  repeated string hostId = 2;
+  repeated float aggregateValue = 3;
+}
+

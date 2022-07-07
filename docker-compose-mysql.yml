@@ -1,0 +1,57 @@
+version: "3.5"
+services:
+  mysql:
+    image: mysql:8
+    hostname: mysql
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+    networks:
+      monitor:
+        ipv4_address: 172.19.0.4
+    environment:
+      MYSQL_USER: monitor
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: golang
+    volumes:
+      - /data/Development/volume/mysql/data:/var/lib/mysql
+    command:
+      - '--default-authentication-plugin=mysql_native_password'
+  #告警模块
+  warning_service:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: warningService_dockerfile
+    hostname: warningService
+    container_name: warningService
+    networks:
+      monitor:
+        ipv4_address: 172.19.0.10
+  #系统配置模块
+  manage_service:
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: manageService_dockerfile
+    hostname: manageService
+    container_name: manageService
+    networks:
+      monitor:
+        ipv4_address: 172.19.0.11
+    ports:
+      - "8030:8030"
+      - "8040:8040"
+    depends_on:
+      - warning_service
+      - mysql
+networks:
+  monitor:
+    name: monitor
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.1
+    driver: bridge

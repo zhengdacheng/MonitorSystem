@@ -1,0 +1,14 @@
+FROM golang
+MAINTAINER dczheng "1261408023@qq.com"
+ENV GO111MODULE on
+WORKDIR /data/Development/goCode/src/monitor
+COPY ./manageService /data/Development/goCode/src/monitor
+WORKDIR /data/Development/goCode/src/monitor/manageService
+RUN export GOPROXY=https://goproxy.io/ &&go mod tidy
+WORKDIR /data/Development/goCode/src/monitor/internal/cmd
+RUN go build -o manageService .
+WORKDIR /dist
+RUN cp /data/Development/goCode/src/monitor/internal/cmd/manageService .
+EXPOSE 8030
+EXPOSE 8040
+ENTRYPOINT ["/dist/manageService"]

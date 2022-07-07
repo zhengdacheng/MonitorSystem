@@ -1,0 +1,14 @@
+FROM golang
+MAINTAINER dczheng "1261408023@qq.com"
+ENV GO111MODULE on
+WORKDIR /data/Development/goCode/src/monitor
+COPY ./dataAnalyzeService /data/Development/goCode/src/monitor
+WORKDIR /data/Development/goCode/src/monitor/dataAnalyzeService
+RUN export GOPROXY=https://goproxy.io/ &&go mod tidy
+WORKDIR /data/Development/goCode/src/monitor/internal/cmd
+RUN go build -o dataAnalyzeService .
+WORKDIR /dist
+RUN cp /data/Development/goCode/src/monitor/internal/cmd/dataAnalyzeService .
+EXPOSE 8010
+EXPOSE 8020
+ENTRYPOINT ["/dist/dataAnalyzeService"]

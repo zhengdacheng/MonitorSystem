@@ -1,0 +1,12 @@
+FROM golang
+MAINTAINER dczheng "1261408023@qq.com"
+ENV GO111MODULE on
+WORKDIR /data/Development/goCode/src/monitor
+COPY ./reportService /data/Development/goCode/src/monitor
+WORKDIR /data/Development/goCode/src/monitor/reportService
+RUN export GOPROXY=https://goproxy.io/ &&go mod tidy
+WORKDIR /data/Development/goCode/src/monitor/internal/cmd
+RUN go build -o reportService .
+WORKDIR /dist
+RUN cp /data/Development/goCode/src/monitor/internal/cmd/reportService .
+ENTRYPOINT ["/dist/reportService","-addr","172.19.0.7:8001"]

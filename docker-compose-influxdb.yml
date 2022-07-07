@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+  #      - "8083:8083"
+  #      - "8090:8090"
+      - "8086:8086"
+    env_file:
+      - 'env.influxdb'
+    volumes:
+      - /data/Development/volume/influxdb/data:/var/lib/influxdb
+    networks:
+      monitor:
+        ipv4_address: 172.19.0.18
+#自定义网络
+networks:
+  monitor:
+    name: monitor
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24 #子网
+          gateway: 172.19.0.1
+    driver: bridge #网桥模式
